@@ -89,13 +89,13 @@ body {
     justify-content: flex-end;
     align-items: center;
     padding: 20px;
-    padding-bottom: 18%;
+    padding-bottom: 3%;
 }
 
 .home-play-btn {
-    padding: 10px 30px;
-    font-size: 16px;
-    border-radius: 20px;
+    padding: 8px 24px;
+    font-size: 13px;
+    border-radius: 16px;
 }
 
 #home-screen .screen-content {
