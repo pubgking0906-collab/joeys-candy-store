@@ -189,20 +189,23 @@ function showToast(message, type = '') {
     }, 2000);
 }
 
-// Mini confetti for success feedback
+// Mini confetti for success feedback - using canvas-confetti
 function createMiniConfetti() {
-    const colors = ['#ff69b4', '#ba55d3', '#40e0d0', '#ffd700', '#ff6b6b', '#51cf66'];
+    // Candy colors 🍬
+    const candyColors = ['#ff69b4', '#ba55d3', '#40e0d0', '#ffd700', '#ff6b6b', '#51cf66', '#ff85c0', '#a78bfa'];
     
-    for (let i = 0; i < 20; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'mini-confetti';
-        confetti.style.left = (30 + Math.random() * 40) + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = (Math.random() * 0.3) + 's';
-        document.body.appendChild(confetti);
-        
-        setTimeout(() => confetti.remove(), 1500);
-    }
+    confetti({
+        particleCount: 30,
+        spread: 60,
+        startVelocity: 25,
+        decay: 0.95,
+        gravity: 0.8,
+        origin: { y: 0.7, x: 0.5 },
+        colors: candyColors,
+        shapes: ['circle', 'square'],
+        scalar: 0.8,
+        ticks: 150
+    });
 }
 
 // === Round Success & Completion ===
@@ -245,23 +248,91 @@ function playAgain() {
     selectLevel(gameState.currentLevel);
 }
 
-// === Confetti ===
+// === Confetti - Professional Victory Celebration ===
 function createConfetti() {
-    const container = document.getElementById('confetti-container');
-    container.innerHTML = '';
+    // Candy colors palette 🍬🍭
+    const candyColors = ['#ff69b4', '#ba55d3', '#40e0d0', '#ffd700', '#ff6b6b', '#51cf66', '#ff85c0', '#a78bfa', '#f472b6'];
     
-    const colors = ['#ff69b4', '#ba55d3', '#40e0d0', '#ffd700', '#ff6b6b', '#51cf66'];
+    // Duration of celebration
+    const duration = 3000;
+    const end = Date.now() + duration;
     
-    for (let i = 0; i < 50; i++) {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random() * 100 + '%';
-        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
-        piece.style.animationDelay = Math.random() * 0.5 + 's';
-        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        container.appendChild(piece);
+    // Cannon from left side
+    function fireLeft() {
+        confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0, y: 0.6 },
+            colors: candyColors,
+            shapes: ['circle', 'square', 'star'],
+            scalar: 1.2
+        });
     }
+    
+    // Cannon from right side
+    function fireRight() {
+        confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1, y: 0.6 },
+            colors: candyColors,
+            shapes: ['circle', 'square', 'star'],
+            scalar: 1.2
+        });
+    }
+    
+    // Fire continuously from both sides
+    const interval = setInterval(function() {
+        if (Date.now() > end) {
+            return clearInterval(interval);
+        }
+        fireLeft();
+        fireRight();
+    }, 50);
+    
+    // Initial big burst from center 🎉
+    confetti({
+        particleCount: 100,
+        spread: 100,
+        startVelocity: 45,
+        decay: 0.9,
+        gravity: 1,
+        origin: { y: 0.6, x: 0.5 },
+        colors: candyColors,
+        shapes: ['circle', 'square', 'star'],
+        scalar: 1.2,
+        ticks: 200
+    });
+    
+    // Stars burst after 500ms ⭐
+    setTimeout(() => {
+        confetti({
+            particleCount: 50,
+            spread: 180,
+            startVelocity: 30,
+            origin: { y: 0.5, x: 0.5 },
+            colors: ['#ffd700', '#ffec8b', '#fff8dc', '#fffacd'],
+            shapes: ['star'],
+            scalar: 1.5,
+            ticks: 150
+        });
+    }, 500);
+    
+    // Final celebration burst
+    setTimeout(() => {
+        confetti({
+            particleCount: 80,
+            spread: 120,
+            startVelocity: 35,
+            origin: { y: 0.7, x: 0.5 },
+            colors: candyColors,
+            shapes: ['circle', 'star'],
+            scalar: 1,
+            ticks: 200
+        });
+    }, 1500);
 }
 
 // ==========================================
