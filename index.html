@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חנות הממתקים של ג'וי</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- מסך פתיחה -->
+        <div id="welcome-screen" class="screen active">
+            <h1 class="game-title">חנות הממתקים של ג'וי</h1>
+            <div class="character-container">
+                <div class="character">👸</div>
+            </div>
+            <button class="play-button" onclick="startGame()">
+                <span class="star-icon">⭐</span>
+                שחקי
+            </button>
+        </div>
+
+        <!-- תפריט רמות -->
+        <div id="level-menu" class="screen">
+            <div class="menu-header">
+                <h2>בחרי רמה</h2>
+                <div class="stars-display">
+                    ⭐ <span id="total-stars">0</span>
+                </div>
+            </div>
+            <div class="levels-grid">
+                <div class="level-card" data-level="1" onclick="selectLevel(1)">
+                    <div class="level-number">1</div>
+                    <h3>ספירת ממתקים</h3>
+                    <div class="level-icon">🍬</div>
+                    <div class="level-stars" id="level-1-stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+                <div class="level-card" data-level="2" onclick="selectLevel(2)">
+                    <div class="level-number">2</div>
+                    <h3>חיבור ממתקים</h3>
+                    <div class="level-icon">🍭</div>
+                    <div class="level-stars" id="level-2-stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+                <div class="level-card" data-level="3" onclick="selectLevel(3)">
+                    <div class="level-number">3</div>
+                    <h3>השוואת ממתקים</h3>
+                    <div class="level-icon">🍫</div>
+                    <div class="level-stars" id="level-3-stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+                <div class="level-card" data-level="4" onclick="selectLevel(4)">
+                    <div class="level-number">4</div>
+                    <h3>חיסור ממתקים</h3>
+                    <div class="level-icon">🧁</div>
+                    <div class="level-stars" id="level-4-stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- רמה 1: ספירת ממתקים -->
+        <div id="level-1-game" class="screen game-screen">
+            <div class="game-header">
+                <button class="back-button" onclick="backToMenu()">← חזרה</button>
+                <div class="round-indicator">סיבוב <span id="current-round">1</span>/5</div>
+            </div>
+            <div class="game-content">
+                <div class="customer-request">
+                    <div class="customer-avatar" id="customer-avatar">🐰</div>
+                    <div class="speech-bubble" id="customer-speech">אני רוצה 5 ממתקים בבקשה!</div>
+                </div>
+                <div class="candy-jar" id="candy-jar"></div>
+                <div class="counting-display">
+                    <span id="count-current">0</span> / <span id="count-target">5</span>
+                </div>
+                <button class="reset-button" onclick="resetCounting()">התחל מחדש</button>
+            </div>
+        </div>
+
+        <!-- רמה 2: חיבור ממתקים -->
+        <div id="level-2-game" class="screen game-screen">
+            <div class="game-header">
+                <button class="back-button" onclick="backToMenu()">← חזרה</button>
+                <div class="round-indicator">סיבוב <span id="l2-current-round">1</span>/5</div>
+            </div>
+            <div class="game-content">
+                <div class="math-question" id="addition-question">
+                    יש לך 3 ממתקים אדומים ו-2 כחולים.<br>
+                    כמה ממתקים יש לך ביחד?
+                </div>
+                <div class="candy-groups">
+                    <div class="candy-group red" id="group-1"></div>
+                    <div class="plus-sign">+</div>
+                    <div class="candy-group blue" id="group-2"></div>
+                </div>
+                <div class="equation">
+                    <span id="num1">3</span> + <span id="num2">2</span> = <span class="answer-box" id="answer-display">?</span>
+                </div>
+                <div class="number-keyboard">
+                    <button class="num-key" onclick="addDigit(0)">0</button>
+                    <button class="num-key" onclick="addDigit(1)">1</button>
+                    <button class="num-key" onclick="addDigit(2)">2</button>
+                    <button class="num-key" onclick="addDigit(3)">3</button>
+                    <button class="num-key" onclick="addDigit(4)">4</button>
+                    <button class="num-key" onclick="addDigit(5)">5</button>
+                    <button class="num-key" onclick="addDigit(6)">6</button>
+                    <button class="num-key" onclick="addDigit(7)">7</button>
+                    <button class="num-key" onclick="addDigit(8)">8</button>
+                    <button class="num-key" onclick="addDigit(9)">9</button>
+                    <button class="clear-key" onclick="clearAnswer()">נקה</button>
+                    <button class="check-key" onclick="checkAddition()">בדוק</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- רמה 3: השוואת ממתקים -->
+        <div id="level-3-game" class="screen game-screen">
+            <div class="game-header">
+                <button class="back-button" onclick="backToMenu()">← חזרה</button>
+                <div class="round-indicator">סיבוב <span id="l3-current-round">1</span>/5</div>
+            </div>
+            <div class="game-content">
+                <div class="comparison-question">מי הזמין יותר ממתקים?</div>
+                <div class="comparison-container">
+                    <div class="character-card" onclick="selectCharacter(1)">
+                        <div class="char-avatar" id="char1-avatar">🧚</div>
+                        <div class="char-name" id="char1-name">הפיה</div>
+                        <div class="char-candies" id="char1-candies"></div>
+                        <div class="char-number" id="char1-number">5</div>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="character-card" onclick="selectCharacter(2)">
+                        <div class="char-avatar" id="char2-avatar">🐉</div>
+                        <div class="char-name" id="char2-name">הדרקון</div>
+                        <div class="char-candies" id="char2-candies"></div>
+                        <div class="char-number" id="char2-number">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- רמה 4: חיסור ממתקים -->
+        <div id="level-4-game" class="screen game-screen">
+            <div class="game-header">
+                <button class="back-button" onclick="backToMenu()">← חזרה</button>
+                <div class="round-indicator">סיבוב <span id="l4-current-round">1</span>/5</div>
+            </div>
+            <div class="game-content">
+                <div class="story-text" id="subtraction-story">
+                    היו לך 7 ממתקים.<br>
+                    מכרת 4 ממתקים ללקוחות.<br>
+                    כמה ממתקים נשארו לך?
+                </div>
+                <div class="candy-shelf" id="candy-shelf"></div>
+                <div class="instruction" id="subtraction-instruction">
+                    לחצי על <span id="to-sell">4</span> ממתקים כדי למכור אותם
+                </div>
+                <div class="sold-counter">
+                    נמכרו: <span id="sold-count">0</span> / <span id="to-sell">4</span>
+                </div>
+                <div class="equation">
+                    <span id="s-num1">7</span> - <span id="s-num2">4</span> = <span class="answer-box" id="s-answer-display">?</span>
+                </div>
+                <div class="number-keyboard hidden" id="subtraction-keyboard">
+                    <button class="num-key" onclick="addDigitSub(0)">0</button>
+                    <button class="num-key" onclick="addDigitSub(1)">1</button>
+                    <button class="num-key" onclick="addDigitSub(2)">2</button>
+                    <button class="num-key" onclick="addDigitSub(3)">3</button>
+                    <button class="num-key" onclick="addDigitSub(4)">4</button>
+                    <button class="num-key" onclick="addDigitSub(5)">5</button>
+                    <button class="num-key" onclick="addDigitSub(6)">6</button>
+                    <button class="num-key" onclick="addDigitSub(7)">7</button>
+                    <button class="num-key" onclick="addDigitSub(8)">8</button>
+                    <button class="num-key" onclick="addDigitSub(9)">9</button>
+                    <button class="clear-key" onclick="clearAnswerSub()">נקה</button>
+                    <button class="check-key" onclick="checkSubtraction()">בדוק</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- מסך חגיגה -->
+        <div id="celebration-screen" class="screen">
+            <div class="celebration-content">
+                <div id="confetti"></div>
+                <h1 class="celebration-title">כל הכבוד!</h1>
+                <div class="celebration-stars">
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                    <span class="big-star">⭐</span>
+                </div>
+                <p class="celebration-text">סיימת את הרמה בהצלחה!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
